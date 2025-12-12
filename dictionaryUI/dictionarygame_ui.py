@@ -28,7 +28,7 @@ TITLE_FONT = ("Bahnschrift", 20, "bold")
 def load_logo(parent, width=400, height=200):
 
     try:
-        img = Image.open("C:/Users/Client/OneDrive/Desktop/dictionaryUI/image/logo.png")
+        img = Image.open("logo.png")
         img = img.resize((width, height), Image.Resampling.LANCZOS)
         photo = ImageTk.PhotoImage(img)
         label = Label(parent, image=photo, bg=THEME_COLOR)
@@ -40,7 +40,22 @@ def load_logo(parent, width=400, height=200):
 # ------------ GLOBAL STATE TRACKER ---------------- #
 MAXIMIZED_STATE = 0
 
-
+# ---- BACKGROUND MUSIC ----
+pygame.mixer.init()
+try:
+    pygame.mixer.music.load("background music.MP3")
+    pygame.mixer.music.play(-1)
+    pygame.mixer.music.set_volume(0.7)
+except:
+    print("Background music could not be loaded.")
+import pygame
+pygame.mixer.init()
+try:
+    pygame.mixer.music.load("background music.MP3")
+    pygame.mixer.music.play(-1)
+except:
+    pass
+pygame.mixer.music.play(-1)
 
 # ------------ UTILITY FUNCTIONS ---------------- #
 def center_window(window, width, height):
@@ -120,7 +135,7 @@ class ScoreboardUI:
 
         try:
             self.snd_button = pygame.mixer.Sound(
-                "C:/Users/Client/OneDrive/Desktop/dictionaryUI/audio/sound_bg/button.MP3")
+                "button.MP3")
         except:
             self.snd_button = None
 
@@ -169,8 +184,6 @@ class ScoreboardUI:
 
     def show_scores(self, level):
         scores = self.Scoreboard.get_scores(level)
-
-        # Filter out zeros
         scores = [s for s in scores if s != 0]
 
         for widget in self.score_frame.winfo_children():
@@ -209,7 +222,7 @@ class LevelSelection:
 
         try:
             self.snd_button = pygame.mixer.Sound(
-                "C:/Users/Client/OneDrive/Desktop/dictionaryUI/audio/sound_bg/button.MP3")
+                "button.MP3")
         except:
             self.snd_button = None
 
@@ -267,22 +280,20 @@ class GameOver:
 
         try:
             self.snd_button = pygame.mixer.Sound(
-                "C:/Users/Client/OneDrive/Desktop/dictionaryUI/audio/sound_bg/button.MP3")
+                "button.MP3")
         except:
             self.snd_button = None
 
         try:
             self.snd_gameover = pygame.mixer.Sound(
-                "C:/Users/Client/OneDrive/Desktop/dictionaryUI/audio/sound_bg/gameover.mp3")
+                "gameover.mp3")
         except:
             self.snd_gameover = None
 
-        # Labels
         Label(self.window, text="Game Over", font=TITLE_FONT, bg=THEME_COLOR, fg=FONT_COLOR).pack(pady=20)
         Label(self.window, text=f"Your Score: {score}", font=MYFONT, bg=THEME_COLOR, fg=FONT_COLOR).pack(pady=10)
         Label(self.window, text=f"High Score: {high_score}", font=MYFONT, bg=THEME_COLOR, fg=FONT_COLOR).pack(pady=10)
 
-        # ---- PLAY GAME OVER SOUND IF NOT HIGH SCORE ----
         if score <= high_score and self.snd_gameover:
             self.snd_gameover.play()
 
@@ -329,7 +340,6 @@ class InfoPopup:
             "\n\nENJOY!"
         )
 
-        # ---- INSTRUCTION CANVAS ----
         canvas_frame = Frame(self.window, bg=THEME_COLOR)
         canvas_frame.pack(pady=10)
 
@@ -374,12 +384,12 @@ class MainMenu:
         self.window.configure(bg=THEME_COLOR)
         try:
             self.snd_button = pygame.mixer.Sound(
-                "C:/Users/Client/OneDrive/Desktop/dictionaryUI/audio/sound_bg/button.MP3")
+                "button.MP3")
         except:
             self.snd_button = None
 
         try:
-            self.logo_image = Image.open("C:/Users/Client/OneDrive/Desktop/dictionaryUI/image/logo.png")
+            self.logo_image = Image.open("logo.png")
             self.logo_image = self.logo_image.resize((400, 200), Image.Resampling.LANCZOS)
             self.logo_photo = ImageTk.PhotoImage(self.logo_image)
             Label(self.window, image=self.logo_photo, bg=THEME_COLOR).pack(pady=20)
@@ -437,32 +447,32 @@ class MainMenu:
 class Dictionary_UI:
     def load_sounds(self):
         try:
-            self.snd_gameover = pygame.mixer.Sound("C:/Users/Client/OneDrive/Desktop/dictionaryUI/audio/sound_bg/gameover.mp3")
+            self.snd_gameover = pygame.mixer.Sound("gameover.mp3")
 
         except:
             self.snd_gameover = None
         try:
             self.snd_button = pygame.mixer.Sound(
-                "C:/Users/Client/OneDrive/Desktop/dictionaryUI/audio/sound_bg/button.MP3")
+                "button.MP3")
         except:
             self.snd_button = None
         try:
             self.snd_correct = pygame.mixer.Sound(
-                "C:/Users/Client/OneDrive/Desktop/dictionaryUI/audio/sound_bg/correct!.MP3")
+                "correct!.MP3")
         except:
             self.snd_correct = None
         try:
             self.snd_wrong = pygame.mixer.Sound(
-                "C:/Users/Client/OneDrive/Desktop/dictionaryUI/audio/sound_bg/wrong.MP3")
+                "wrong.MP3")
         except:
             self.snd_wrong = None
         try:
             self.snd_highscore = pygame.mixer.Sound(
-                "C:/Users/Client/OneDrive/Desktop/dictionaryUI/audio/sound_bg/wow.MP3")
+                "wow.MP3")
         except:
             self.snd_highscore = None
         try:
-            pygame.mixer.music.load("C:/Users/Client/OneDrive/Desktop/dictionaryUI/audio/sound_bg/background music.MP3")
+            pygame.mixer.music.load("background music.MP3")
             pygame.mixer.music.play(-1)
         except:
             pass
@@ -493,7 +503,7 @@ class Dictionary_UI:
             self.hints_to_show = [1, 2, 3, 4, 5]
         elif self.level == "medium":
             self.hints_to_show = [1, 2, 3]
-        else:  # hard
+        else:
             self.hints_to_show = [1]
 
         self.hint_count = len(self.hints_to_show)
@@ -515,7 +525,8 @@ class Dictionary_UI:
 
         self.window.configure(bg=THEME_COLOR)
 
-        Label(self.window, text="Dictionary Game", font=TITLE_FONT, bg=THEME_COLOR, fg=FONT_COLOR).pack(pady=15)
+        title = "Dictionary Game" if self.game_mode else "Dictionary"
+        Label(self.window, text=title, font=TITLE_FONT, bg=THEME_COLOR, fg=FONT_COLOR).pack(pady=15)
 
         input_frame = Frame(self.window, bg=THEME_COLOR)
         input_frame.pack(pady=5)
@@ -544,13 +555,13 @@ class Dictionary_UI:
 
         self.entry_definition = Text(self.window, width=30, height=10, bg=TEXTBOX_BG, font=MYFONT)
         self.entry_definition.pack(pady=10)
+        self.entry_definition.config(state=DISABLED)
         self.label_result = Label(self.window, text="", font=MYFONT, bg=THEME_COLOR, fg=FONT_COLOR)
         self.label_result.pack(pady=10, padx=20)
 
         if self.game_mode:
             self.label_score = Label(self.window, text="Score: 0", font=MYFONT, bg=THEME_COLOR, fg=FONT_COLOR)
             self.label_score.pack(pady=5)
-            # hint_label now shows the cumulative hints
             self.hint_label = Label(self.window, text="Hints: ", font=MYFONT, bg=THEME_COLOR, fg=FONT_COLOR)
             self.hint_label.pack(pady=5)
             Button(self.window, text="Hint", bg=HINT_BT, font=MYFONT, fg=BUTTON_FG,
@@ -652,11 +663,16 @@ class Dictionary_UI:
             random.shuffle(self.available_words)
         self.current_word = self.available_words.pop()
 
+        self.entry_definition.config(state=NORMAL)
         self.entry_definition.delete(1.0, END)
+
         self.entry_word.delete(0, END)
         self.label_result.config(text="")
+
         definition = self.dictionary_data[self.current_word].strip()
         self.entry_definition.insert(END, definition)
+
+        self.entry_definition.config(state=DISABLED)
 
         self.hint_label.config(text="Hints: ")
         self.hint_count = len(self.hints_to_show)
@@ -676,30 +692,49 @@ class Dictionary_UI:
 
         mapping = {k.lower().strip(): k.strip() for k in self.dictionary_data}
 
+        self.entry_definition.config(state=NORMAL)
+        self.entry_definition.delete(1.0, END)
+
         if word in mapping:
             real = mapping[word]
-            self.entry_definition.delete(1.0, END)
             self.entry_definition.insert(END, self.dictionary_data[real].strip())
             self.label_result.config(text="", fg="black")
         else:
+            self.entry_definition.insert(END, "Word not found.")
             self.label_result.config(text="Word not found.", fg="red")
 
+        self.entry_definition.config(state=DISABLED)
+
     def guess_word(self):
-
         guess = self.entry_word.get().strip().lower()
-        self.entry_word.delete(0, END)
-        correct_word_lower = self.current_word.strip().lower()
 
-        if self.current_word and guess == correct_word_lower:
+        if guess == "":
+            self.label_result.config(text="Please enter a word first.", fg="red")
+            return
+
+        self.entry_word.delete(0, END)
+
+        correct_word = self.current_word.strip()
+        correct_word_lower = correct_word.lower()
+
+        if guess == correct_word_lower:
             self.play_correct()
             self.score += 1
             self.label_score.config(text=f"Score: {self.score}")
-            self.label_result.config(text="Correct!")
+            self.label_result.config(text="Correct!", fg="green")
+
             self.window.after(500, self.next_word)
-        else:
-            self.play_wrong()
-            self.label_result.config(text=f"Wrong! Correct was: {self.current_word.strip()}")
-            self.window.after(1005, self.next_word)
+            return
+
+        self.play_wrong()
+        self.label_result.config(text=f"Wrong! Correct was: {correct_word}", fg="red")
+
+        self.entry_definition.config(state=NORMAL)
+        self.entry_definition.delete(1.0, END)
+        self.entry_definition.insert(END, self.dictionary_data[correct_word].strip())
+        self.entry_definition.config(state=DISABLED)
+
+        self.window.after(1005, self.next_word)
 
     def set_difficulty(self, difficulty):
         if difficulty == "easy":
