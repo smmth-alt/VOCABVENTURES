@@ -40,6 +40,23 @@ def load_logo(parent, width=400, height=200):
 # ------------ GLOBAL STATE TRACKER ---------------- #
 MAXIMIZED_STATE = 0
 
+# ---- BACKGROUND MUSIC ----#
+pygame.mixer.init()
+try:
+    pygame.mixer.music.load("background music.MP3")
+    pygame.mixer.music.play(-1)
+    pygame.mixer.music.set_volume(0.7)
+except:
+    print("Background music could not be loaded.")
+import pygame
+pygame.mixer.init()
+try:
+    pygame.mixer.music.load("background music.MP3")
+    pygame.mixer.music.play(-1)
+except:
+    pass
+pygame.mixer.music.play(-1)
+
 # ------------ UTILITY FUNCTIONS ---------------- #
 def center_window(window, width, height):
     screen_width = window.winfo_screenwidth()
@@ -800,4 +817,5 @@ class Dictionary_UI:
 # ------------ START PROGRAM ------------ #
 if __name__ == "__main__":
     MainMenu()
+
 
